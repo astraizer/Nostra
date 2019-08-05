@@ -14,9 +14,15 @@ import com.example.nostra.models.Country
 import com.example.nostra.models.News
 import com.example.nostra.presenters.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(),MainView {
+    override fun retry() {
+
+        retryBtn.visibility=View.VISIBLE;
+    }
+
     override fun addSpinner(data: MutableList<Country>) {
         val spinner = countrySpinner
 
@@ -31,7 +37,9 @@ class MainActivity : AppCompatActivity(),MainView {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 country = data[position].code
+                loading.visibility=View.VISIBLE
                 presenter!!.getData(country)
+
             }
         }
 
@@ -42,12 +50,16 @@ class MainActivity : AppCompatActivity(),MainView {
 
     }
 
-    override fun showData(datas: MutableList<News>) {
+    override fun showData(datas: MutableList<News>?) {
         news.clear()
-        for (data in datas){
-            news.add(data)
+        if (datas != null) {
+            for (data in datas){
+                news.add(data)
+            }
         }
         recyclerNews.adapter?.notifyDataSetChanged()
+        recyclerNews.visibility=View.VISIBLE
+        loading.visibility=View.INVISIBLE
     }
 
 
@@ -72,8 +84,14 @@ class MainActivity : AppCompatActivity(),MainView {
                 "content" to (it.content ?: "")
             )
         }
+        loading.visibility=View.VISIBLE
         presenter!!.getData(country)
         presenter!!.addSpinner()
+        retryBtn.onClick {
+            retryBtn.visibility=View.INVISIBLE
+            recyclerNews.visibility=View.INVISIBLE
+            presenter!!.getData(country)
+        }
     }
 
 }

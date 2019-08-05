@@ -11,6 +11,7 @@
     <TextView
             android:id="@+id/newsDetailTitle"
             android:textSize="20sp"
+            android:textColor="@color/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -85,10 +86,11 @@
                 android:textSize="12sp"
                 android:id="@+id/newsDetailDesc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="25dp"/>
 
         <TextView
                 android:textSize="14sp"
+                android:textColor="@color/text"
                 android:id="@+id/newsDetailContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

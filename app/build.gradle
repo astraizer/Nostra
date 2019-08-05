@@ -54,4 +54,7 @@ dependencies {
     //common
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
 }

@@ -1,14 +1,11 @@
 package com.example.nostra.presenters
 
-import android.util.Log
-import android.widget.Toast
 import com.example.nostra.interfaces.MainView
 import com.example.nostra.interfaces.Services
 import com.example.nostra.models.Article
 import com.example.nostra.models.Country
 import com.example.nostra.models.News
 import com.example.nostra.repositories.ApiRepository
-import com.example.nostra.views.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,13 +15,14 @@ class MainPresenter (_view : MainView) {
     private var view = _view;
 
     fun getData(country: String){
-        var newsList : MutableList<News> = mutableListOf()
+        var newsList : MutableList<News>? = mutableListOf()
 
         val services = ApiRepository.repositoryInstance?.create(Services::class.java)
         val call = services?.getArticle("top-headlines","technology",country,ApiRepository.API_KEY)
+
         call?.enqueue(object : Callback<Article> {
             override fun onFailure(call: Call<Article>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                view.retry()
             }
 
             override fun onResponse(call: Call<Article>, response: Response<Article>) {
@@ -32,7 +30,7 @@ class MainPresenter (_view : MainView) {
                 val articles =  body?.articles
                 if (articles != null) {
                     for(news in articles) {
-                        newsList.add(news)
+                        newsList?.add(news)
                     }
                     view.showData(newsList)
                 }
